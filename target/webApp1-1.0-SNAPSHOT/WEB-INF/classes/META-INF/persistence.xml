@@ -10,8 +10,8 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/isdcm"/>
-            <property name="javax.persistence.jdbc.user" value="miguel.antunez"/>
-            <property name="javax.persistence.jdbc.password" value="admin"/>
+            <property name="javax.persistence.jdbc.user" value="isdcm"/>
+            <property name="javax.persistence.jdbc.password" value="isdcm"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -19,13 +19,13 @@
             <input id="name" name="name" required="required" type="text" placeholder="Nombre"/>
         </p>
         <p>
+            <label for="surnames">Apellidos</label>
+            <input id="surnames" name="surnames" required="required" type="text" placeholder="Apellidos"/>
+        </p>
+        <p>
             <label for="nickName">Nombre usuario</label>
             <input id="nickName" name="nickName" required="required" type="text"
                    placeholder="Nombre usuario"/>
-        </p>
-        <p>
-            <label for="surnames">Apellidos</label>
-            <input id="surnames" name="surnames" required="required" type="text" placeholder="Apellidos"/>
         </p>
         <p>
             <label for="email">Email</label>
