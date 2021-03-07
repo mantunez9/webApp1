@@ -39,9 +39,10 @@ public class UserRegisterServlet extends HttpServlet {
             String surnames = req.getParameter("surnames");
             String email = req.getParameter("email");
 
-            Optional<User> userOptional = userDao.findByNickName(nickName);
+            Optional<User> userByNickNameOptional = userDao.findByNickName(nickName);
+            Optional<User> userByEmailOptional = userDao.findByEmail(email);
 
-            if (!userOptional.isPresent()) {
+            if (!userByNickNameOptional.isPresent() && !userByEmailOptional.isPresent()) {
 
                 User user = new User();
                 user.setSurnames(surnames);
@@ -58,7 +59,9 @@ public class UserRegisterServlet extends HttpServlet {
 
             }
 
-            String message = "El nombre de usuario ya existe";
+            String message = "Username already exist";
+            if (userByEmailOptional.isPresent())
+                message = "Email already registered";
             req.setAttribute("message", message);
             req.getRequestDispatcher("/registroUsu.jsp").forward(req, resp);
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
-@WebServlet(name = "userLoginServlet")
+@WebServlet(name = "userLoginServlet", value = "/login")
 public class UserLoginServlet extends HttpServlet {
 
     @Override
@@ -45,7 +45,7 @@ public class UserLoginServlet extends HttpServlet {
                 req.setAttribute("videos", videoDAO.findAllVideo());
                 web = "/registroVid.jsp";
             } else {
-                String message = "Nombre usuario/contraseña incorrectos";
+                String message = "Incorrect username or password";
                 req.setAttribute("message", message);
                 web = "/login.jsp";
             }

@@ -1,37 +1,23 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
-<form action="registro" method="post">
-    <table>
-        <caption><h2>Inicio sesión</h2></caption>
-        <tbody>
-        <tr>
-            <td>Nombre usuario</td>
-            <td><label>
-                <input name="nickName"/>
-            </label></td>
-        </tr>
-        <tr>
-            <td>Contraseña</td>
-            <td><label>
-                <input name="password" type="password"/>
-            </label></td>
-        </tr>
-        </tbody>
-    </table>
-    <br>${message}
-    <br><br>
-    <div>
-        <input type="submit"/>
+<div class="login-page">
+    <div class="form">
+        <h2>SIGN IN</h2>
+        <form action="registro" method="post">
+            <input name="nickName" type="text" placeholder="username"/>
+            <input name="password" type="password" placeholder="password"/>
+            <p class="error-message"> ${message} </p>
+            <button type="submit">login</button>
+            <p class="message">Not registered? <a href="${pageContext.request.contextPath}/register">Create an account</a></p>
+        </form>
     </div>
-</form>
-<a href="${pageContext.request.contextPath}/register">
-    <button>Registrar</button>
-</a>
+</div>
 </body>
 </html>
 
