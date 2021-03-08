@@ -7,6 +7,14 @@
   Time: 20:15
   To change this template use File | Settings | File Templates.
 --%>
+
+<% HttpSession nsession = request.getSession(false);
+    if (nsession == null) {
+%>
+<jsp:forward page="login.jsp"/>
+<%
+    }
+%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <html>
