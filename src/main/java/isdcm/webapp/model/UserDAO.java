@@ -28,6 +28,21 @@ public class UserDAO {
 
     }
 
+    public Optional<User> findByEmail(String email) {
+
+        try {
+            return Optional.of(
+                    entityMgr
+                            .createQuery("SELECT u FROM User u where u.email = :email", User.class)
+                            .setParameter("email", email)
+                            .getSingleResult()
+            );
+        } catch (NoResultException exception) {
+            return Optional.empty();
+        }
+
+    }
+
     @Transactional
     public void createUser(User user) {
 
