@@ -32,6 +32,7 @@ public class VideoServlet extends HttpServlet {
             String reproducciones = req.getParameter("reproducciones");
             String descripcion = req.getParameter("descripcion");
             String formato = req.getParameter("formato");
+            String url = req.getParameter("url");
 
             Video video = new Video();
             video.setAuthor(autor);
@@ -41,6 +42,7 @@ public class VideoServlet extends HttpServlet {
             video.setReproduction(Integer.parseInt(reproducciones));
             video.setFormat(formato);
             video.setTittle(titulo);
+            video.setUrl(url);
 
             videoDAO.createVideo(video);
 

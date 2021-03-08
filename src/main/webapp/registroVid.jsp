@@ -63,6 +63,10 @@
                 <label for="formato">Format</label>
                 <input id="formato" name="formato" required="required" type="text" placeholder="mp4"/>
             </p>
+            <p>
+                <label for="url">url</label>
+                <input id="url" name="url" type="url" placeholder="www.youtube.com/example"/>
+            </p>
             <button type="submit">create</button>
         </form>
     </div>
@@ -81,6 +85,7 @@
                 <th>Number of reproductions</th>
                 <th>Description</th>
                 <th>Format</th>
+                <th>Url</th>
             </tr>
             </thead>
             <tbody>
@@ -93,6 +98,7 @@
                     <td>${video.reproduction}</td>
                     <td>${video.description}</td>
                     <td>${video.format}</td>
+                    <td>${video.url}</td>
                 </tr>
             </c:forEach>
             </tbody>

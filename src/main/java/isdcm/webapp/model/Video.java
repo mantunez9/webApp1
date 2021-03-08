@@ -38,5 +38,7 @@ public class Video {
     @Column
     private String format;
 
+    @Column
+    private String url;
 
 }
