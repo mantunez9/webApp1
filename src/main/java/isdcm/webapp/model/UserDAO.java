@@ -46,10 +46,14 @@ public class UserDAO {
     @Transactional
     public void createUser(User user) {
 
-        entityMgr.getTransaction().begin();
-        entityMgr.persist(user);
-        entityMgr.getTransaction().commit();
-        entityMgr.clear();
+        try {
+            entityMgr.getTransaction().begin();
+            entityMgr.persist(user);
+            entityMgr.getTransaction().commit();
+            entityMgr.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

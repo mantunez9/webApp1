@@ -13,10 +13,14 @@ public class VideoDAO {
 
     public void createVideo(Video video) {
 
-        entityMgr.getTransaction().begin();
-        entityMgr.persist(video);
-        entityMgr.getTransaction().commit();
-        entityMgr.clear();
+        try {
+            entityMgr.getTransaction().begin();
+            entityMgr.persist(video);
+            entityMgr.getTransaction().commit();
+            entityMgr.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
