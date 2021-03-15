@@ -19,14 +19,19 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <meta http-equiv="Content-Type"
           content="text/html; charset=windows-1256">
     <title>Video</title>
+    <link rel="stylesheet" type="text/css" href="css/dropdown.css">
 </head>
 <body>
-<b>User ${user.nickName} logged in</b>
-<a href="${pageContext.request.contextPath}/logout">Logout</a>
-<br><br>
+<div class="dropdown">
+    <button class="dropbtn">${user.nickName}</button>
+    <div class="dropdown-content">
+        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+    </div>
+</div>
 <div class="video-page">
     <div class="video-form">
         <h1>Video Registration</h1>
@@ -72,20 +77,20 @@
     </div>
 </div>
 
-<div class="video-page">
-    <div class="video-form">
-        <table class="flat-table">
+<div style="padding: 8% 0 0;">
+    <div style="background: #FFFFFF; padding: 15px; text-align: center;">
+        <table id="videoTable" class="flat-table">
             <h1>List of videos</h1>
             <thead>
             <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Creation date</th>
-                <th>Time</th>
-                <th>Number of reproductions</th>
-                <th>Description</th>
-                <th>Format</th>
-                <th>Url</th>
+                <th onclick="sortTable(0)">Title</th>
+                <th onclick="sortTable(1)">Author</th>
+                <th onclick="sortTable(2)">Creation date</th>
+                <th onclick="sortTable(3)">Time</th>
+                <th onclick="sortTable(4)">Number of reproductions</th>
+                <th onclick="sortTable(5)">Description</th>
+                <th onclick="sortTable(6)">Format</th>
+                <th onclick="sortTable(7)">Url</th>
             </tr>
             </thead>
             <tbody>
@@ -103,6 +108,44 @@
             </c:forEach>
             </tbody>
         </table>
+        <script>
+            function sortTable(n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+                table = document.getElementById("videoTable");
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                        if (dir == "asc") {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch= true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount ++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+            }
+        </script>
     </div>
 </div>
 </body>
