@@ -1,7 +1,8 @@
 package isdcm.webapp.controller;
 
 import isdcm.webapp.model.Video;
-import isdcm.webapp.model.VideoDAO;
+import isdcm.webapp.model.dao.VideoDAO;
+import isdcm.webapp.model.vo.ResultActionsCRUD;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,31 @@ public class VideoServlet extends HttpServlet {
 
     static final DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
     static final DateTimeFormatter hora = DateTimeFormatter.ISO_LOCAL_TIME;
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
+        try {
+
+            HttpSession session = req.getSession(false);
+
+            if (session != null && session.getAttribute("user") != null) {
+
+                VideoDAO videoDAO = new VideoDAO();
+                req.setAttribute("videos", videoDAO.findAllVideo());
+                req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+
+            }
+
+            resp.sendRedirect("/login");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
@@ -44,12 +70,20 @@ public class VideoServlet extends HttpServlet {
             video.setTittle(titulo);
             video.setUrl(url);
 
-            videoDAO.createVideo(video);
+            ResultActionsCRUD resultActionsCRUD = videoDAO.createVideo(video);
 
-            HttpSession session = req.getSession();
-            session.setAttribute("user", session.getAttribute("user"));
-            req.setAttribute("videos", videoDAO.findAllVideo());
-            req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+            if (resultActionsCRUD.isOk()) {
+
+                req.setAttribute("videos", videoDAO.findAllVideo());
+                req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+
+            } else {
+
+                //ERROR !
+                req.setAttribute("error", resultActionsCRUD.getMissatge());
+                req.getRequestDispatcher("/error.jsp").forward(req, resp);
+
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,4 +1,7 @@
-package isdcm.webapp.model;
+package isdcm.webapp.model.dao;
+
+import isdcm.webapp.model.Video;
+import isdcm.webapp.model.vo.ResultActionsCRUD;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,15 +14,28 @@ public class VideoDAO {
     EntityManagerFactory emFactoryObj = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager entityMgr = emFactoryObj.createEntityManager();
 
-    public void createVideo(Video video) {
+    public ResultActionsCRUD createVideo(Video video) {
 
         try {
+
             entityMgr.getTransaction().begin();
             entityMgr.persist(video);
             entityMgr.getTransaction().commit();
             entityMgr.clear();
+
+            return ResultActionsCRUD
+                    .builder()
+                    .isOk(true)
+                    .build();
+
         } catch (Exception e) {
-            e.printStackTrace();
+
+            return ResultActionsCRUD
+                    .builder()
+                    .missatge(e.getMessage())
+                    .isOk(false)
+                    .build();
+
         }
 
     }

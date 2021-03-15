@@ -8,13 +8,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<% HttpSession nsession = request.getSession(false);
-    if (nsession == null) {
-%>
-<jsp:forward page="login.jsp"/>
-<%
-    }
-%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <html>
@@ -121,12 +114,12 @@
                         shouldSwitch = false;
                         x = rows[i].getElementsByTagName("TD")[n];
                         y = rows[i + 1].getElementsByTagName("TD")[n];
-                        if (dir == "asc") {
+                        if (dir === "asc") {
                             if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                                shouldSwitch= true;
+                                shouldSwitch = true;
                                 break;
                             }
-                        } else if (dir == "desc") {
+                        } else if (dir === "desc") {
                             if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                                 shouldSwitch = true;
                                 break;
@@ -136,9 +129,9 @@
                     if (shouldSwitch) {
                         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                         switching = true;
-                        switchcount ++;
+                        switchcount++;
                     } else {
-                        if (switchcount == 0 && dir == "asc") {
+                        if (switchcount === 0 && dir === "asc") {
                             dir = "desc";
                             switching = true;
                         }

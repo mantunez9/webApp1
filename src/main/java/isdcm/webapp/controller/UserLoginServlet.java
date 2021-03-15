@@ -1,8 +1,7 @@
 package isdcm.webapp.controller;
 
 import isdcm.webapp.model.User;
-import isdcm.webapp.model.UserDAO;
-import isdcm.webapp.model.VideoDAO;
+import isdcm.webapp.model.dao.UserDAO;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,15 @@ public class UserLoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
+
+            HttpSession session = req.getSession(false);
+
+            if (session != null && session.getAttribute("user") != null) {
+                resp.sendRedirect("/video");
+            }
+
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,22 +42,25 @@ public class UserLoginServlet extends HttpServlet {
             String pass = req.getParameter("password");
 
             UserDAO userDao = new UserDAO();
-            VideoDAO videoDAO = new VideoDAO();
 
             Optional<User> userOptional = userDao.findByNickName(nickName);
 
             if (userOptional.isPresent() && userOptional.get().getPassword().equals(pass)) {
+
                 HttpSession session = req.getSession();
                 session.setAttribute("user", userOptional.get());
-                req.setAttribute("videos", videoDAO.findAllVideo());
-                web = "/registroVid.jsp";
+                web = "/video";
+                resp.sendRedirect(web);
+
             } else {
+
                 String message = "Incorrect username or password";
                 req.setAttribute("message", message);
-                web = "/login.jsp";
+                web = "/login";
+                req.getRequestDispatcher(web).forward(req, resp);
+
             }
 
-            req.getRequestDispatcher(web).forward(req, resp);
 
         } catch (Exception e) {
             e.printStackTrace();

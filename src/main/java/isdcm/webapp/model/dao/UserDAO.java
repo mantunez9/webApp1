@@ -1,10 +1,12 @@
-package isdcm.webapp.model;
+package isdcm.webapp.model.dao;
+
+import isdcm.webapp.model.User;
+import isdcm.webapp.model.vo.ResultActionsCRUD;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 public class UserDAO {
@@ -43,16 +45,28 @@ public class UserDAO {
 
     }
 
-    @Transactional
-    public void createUser(User user) {
+    public ResultActionsCRUD createUser(User user) {
 
         try {
+
             entityMgr.getTransaction().begin();
             entityMgr.persist(user);
             entityMgr.getTransaction().commit();
             entityMgr.clear();
+
+            return ResultActionsCRUD
+                    .builder()
+                    .isOk(true)
+                    .build();
+
         } catch (Exception e) {
-            e.printStackTrace();
+
+            return ResultActionsCRUD
+                    .builder()
+                    .missatge(e.getMessage())
+                    .isOk(false)
+                    .build();
+
         }
 
     }

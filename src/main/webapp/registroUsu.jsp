@@ -36,13 +36,12 @@
             <span>
                 <label for="password">Password:</label>
                 <input id="password" name="password" required="required" type="password"
-                       placeholder="eg. X8df!90EO" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                       onchange="this.setCustomValidity(this.validity.patternMismatch ? 'It must contain at least one number and one lowercase and uppercase letter, and at least 8 or more characters' : ''); if(this.checkValidity()) form.passwordsignup_confirm.pattern = this.value;"/>
+                       placeholder="eg. X8df!90EO" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/>
             </span>
             <span>
                 <label for="passwordsignup_confirm">Confirm password: </label>
                 <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password"
-                       placeholder="eg. X8df!90EO" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');"/>
+                       placeholder="eg. X8df!90EO"/>
             </span>
             <p class="error-message"> ${message} </p>
             <button type="submit">register</button>
@@ -52,3 +51,18 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+    window.onload = function () {
+        let txtPassword = document.getElementById("password");
+        let txtConfirmPassword = document.getElementById("passwordsignup_confirm");
+        txtPassword.onchange = ConfirmPassword;
+        txtConfirmPassword.onkeyup = ConfirmPassword;
+
+        function ConfirmPassword() {
+            txtConfirmPassword.setCustomValidity("");
+            if (txtPassword.value !== txtConfirmPassword.value) {
+                txtConfirmPassword.setCustomValidity("Please enter the same Password as above.");
+            }
+        }
+    }
+</script>

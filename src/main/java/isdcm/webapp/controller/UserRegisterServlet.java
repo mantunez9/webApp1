@@ -1,8 +1,8 @@
 package isdcm.webapp.controller;
 
 import isdcm.webapp.model.User;
-import isdcm.webapp.model.UserDAO;
-import isdcm.webapp.model.VideoDAO;
+import isdcm.webapp.model.dao.UserDAO;
+import isdcm.webapp.model.vo.ResultActionsCRUD;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,15 @@ public class UserRegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
         try {
+
+            HttpSession session = req.getSession(false);
+
+            if (session != null && session.getAttribute("user") != null) {
+                resp.sendRedirect("/video");
+            }
+
             req.getRequestDispatcher("/registroUsu.jsp").forward(req, resp);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,7 +39,6 @@ public class UserRegisterServlet extends HttpServlet {
         try {
 
             UserDAO userDao = new UserDAO();
-            VideoDAO videoDAO = new VideoDAO();
 
             String nickName = req.getParameter("nickName");
             String password = req.getParameter("password");
@@ -51,11 +58,22 @@ public class UserRegisterServlet extends HttpServlet {
                 user.setName(name);
                 user.setEmail(email);
 
-                userDao.createUser(user);
+                ResultActionsCRUD resultActionsCRUD = userDao.createUser(user);
+
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
-                req.setAttribute("videos", videoDAO.findAllVideo());
-                req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+
+                if (resultActionsCRUD.isOk()) {
+
+                    resp.sendRedirect("/video");
+
+                } else {
+
+                    //ERROR!
+                    req.setAttribute("error", resultActionsCRUD.getMissatge());
+                    req.getRequestDispatcher("/error.jsp").forward(req, resp);
+
+                }
 
             }
 
