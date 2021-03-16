@@ -7,14 +7,21 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page isErrorPage="true" %>
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <html>
 <head>
     <title>Error</title>
 </head>
 <body>
-<h3>Sorry an exception occured!</h3>
-<p class="error-message"> ${error} </p>
-<%= exception %>
-<a href="${pageContext.request.contextPath}/login">Log In</a>
+<div class="login-page">
+    <div style="background: #FFFFFF; padding: 15px; text-align: center;">
+        <h2>Sorry an exception occured!</h2>
+        <p class="error-message"> ${error} </p>
+        <%= exception %>
+        <br/>
+        <br/>
+        <p>Go to <a href="${pageContext.request.contextPath}/login">Log In</a></p>
+    </div>
+</div>
 </body>
 </html>

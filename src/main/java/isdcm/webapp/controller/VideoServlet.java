@@ -30,7 +30,7 @@ public class VideoServlet extends HttpServlet {
 
                 VideoDAO videoDAO = new VideoDAO();
                 req.setAttribute("videos", videoDAO.findAllVideo());
-                req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+                req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
 
             }
 
@@ -75,7 +75,7 @@ public class VideoServlet extends HttpServlet {
             if (resultActionsCRUD.isOk()) {
 
                 req.setAttribute("videos", videoDAO.findAllVideo());
-                req.getRequestDispatcher("/registroVid.jsp").forward(req, resp);
+                req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
 
             } else {
 
