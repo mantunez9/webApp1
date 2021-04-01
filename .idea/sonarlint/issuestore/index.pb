@@ -5,21 +5,27 @@ Z
 *src/main/java/isdcm/webapp/model/User.java,0\3\03faee8c90ada298c82bce5bb6ea6b0f25482394
 l
 <src/main/java/isdcm/webapp/controller/UserLogoutServlet.java,f\2\f2d7a0a3624212c88865417d9346bcfb054dd0c7
-]
--src/main/java/isdcm/webapp/model/UserDAO.java,e\b\eb2c230bb59028fd7b5eb3473acf6848466e4ee2
 k
 ;src/main/java/isdcm/webapp/controller/UserLoginServlet.java,6\9\69fec9d713afc381fe30f3c52245f3be5881323f
 n
 >src/main/java/isdcm/webapp/controller/UserRegisterServlet.java,7\5\756b8a15dddc162940fb5044e3e87628479f1231
-^
-.src/main/java/isdcm/webapp/model/VideoDAO.java,a\9\a9449cab07ce16518fe5da821c96e9ff7f3c4111
 [
 +src/main/java/isdcm/webapp/model/Video.java,0\f\0f42596f9f3b3ab292bbb33ab8eea4fdba8b97a8
 O
 src/main/webapp/registroUsu.jsp,6\0\600da9075d935282276404b1927bb8c11b2b0da0
-O
-src/main/webapp/registroVid.jsp,9\d\9d57024021139ba57d70316ffc199e7f2987fb2c
 g
 7src/main/java/isdcm/webapp/controller/VideoServlet.java,2\5\259502fa3cbe1e32059c37ba59b9b73706867a04
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+O
+src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
+;
+webApp1.iml,c\a\ca894328cfd9647bcbe937379f213813935afb9e
+a
+1src/main/java/isdcm/webapp/model/dao/UserDAO.java,5\e\5e2fd84f7bfa3547516b3bb583bee14ea608ab4b
+b
+2src/main/java/isdcm/webapp/model/dao/VideoDAO.java,d\8\d87443687fb6551d40e2a13137e31d798df3a151
+j
+:src/main/java/isdcm/webapp/model/vo/ResultActionsCRUD.java,6\b\6b0bc0747405330f03b36230c1d4936738d3b0d6
+I
+src/main/webapp/error.jsp,c\b\cba3df22242d379bdb72d00919d2e8d49101d1bf
