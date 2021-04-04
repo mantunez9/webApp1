@@ -3,6 +3,7 @@ package isdcm.webapp.controller;
 import isdcm.webapp.model.Video;
 import isdcm.webapp.model.dao.VideoDAO;
 import isdcm.webapp.model.vo.ResultActionsCRUD;
+import isdcm.webapp.soapserver.ws.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,13 +26,26 @@ public class VideoServlet extends HttpServlet {
         try {
 
             HttpSession session = req.getSession(false);
+            String title = req.getParameter("byTitle");
+            String author = req.getParameter("byAuthor");
+            String date = req.getParameter("byCreationDate");
 
             if (session != null && session.getAttribute("user") != null) {
 
-                VideoDAO videoDAO = new VideoDAO();
-                req.setAttribute("videos", videoDAO.findAllVideo());
+                if (title != null && !title.equals("")) {
+                    VideoResponse videosByTitle = findByTitle(title);
+                    req.setAttribute("videos", videosByTitle);
+                } else if(author != null && !author.equals("")) {
+                    VideoResponse videosByAuthor = findByAuthor(author);
+                    req.setAttribute("videos", videosByAuthor);
+                } else if(date != null && !date.equals("")) {
+                    VideoResponse videosByDate = findByDate(date);
+                    req.setAttribute("videos", videosByDate);
+                } else {
+                    VideoDAO videoDAO = new VideoDAO();
+                    req.setAttribute("videos", videoDAO.findAllVideo());
+                }
                 req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
-
             }
 
             resp.sendRedirect("/login");
@@ -42,6 +56,43 @@ public class VideoServlet extends HttpServlet {
 
         }
 
+    }
+
+    private VideoResponse findByDate(String date) {
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByDateRequest request = objectFactory.createFindVideoByDateRequest();
+        String[] splited = date.split("-");
+        request.setYear(splited[0]);
+        if (!splited[1].equals("XX")) {
+            request.setMonth(splited[1]);
+        }
+        if(!splited[2].equals("XX")) {
+            request.setDay(splited[2]);
+        }
+        VideoResponse videoResponse = port.findVideoByDate(request);
+        return videoResponse;
+    }
+
+    private VideoResponse findByTitle(String title) {
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByTittleRequest request = objectFactory.createFindVideoByTittleRequest();
+        request.setTittle(title);
+        VideoResponse videoResponse = port.findVideoByTittle(request);
+        return videoResponse;
+    }
+
+    private VideoResponse findByAuthor(String author) {
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByAuthorRequest request = objectFactory.createFindVideoByAuthorRequest();
+        request.setAuthor(author);
+        VideoResponse videoResponse =port.findVideoByAuthor(request);
+        return videoResponse;
     }
 
     @Override
@@ -88,6 +139,5 @@ public class VideoServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

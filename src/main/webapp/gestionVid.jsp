@@ -58,20 +58,59 @@
                 <input id="descripcion" name="descripcion" required="required" type="text" placeholder="description"/>
             </p>
             <p>
-                <label for="formato">Format</label>
+                <label for="formato">Format: </label>
                 <input id="formato" name="formato" required="required" type="text" placeholder="mp4"/>
             </p>
             <p>
-                <label for="url">url</label>
+                <label for="url">URL: </label>
                 <input id="url" name="url" type="url" placeholder="www.youtube.com/example"/>
             </p>
             <button type="submit">create</button>
         </form>
     </div>
 </div>
-
 <div style="padding: 8% 0 0;">
     <div style="background: #FFFFFF; padding: 15px; text-align: center;">
+        <div class="video-form" style="box-shadow: none; max-width: 50%;margin: unset; padding: unset;">
+            <h1>Search</h1>
+            <form action="video" method="get">
+                <p style="display:flex; flex-direction: row;">
+                    <label style="width: 15%">By Title: </label>
+                    <input id="byTitle" name="byTitle" type="text" placeholder="title" onchange="blockOtherInput('t')"/>
+                </p>
+                <p style="display:flex; flex-direction: row;">
+                    <label style="width: 15%">By Author: </label>
+                    <input id="byAuthor" name="byAuthor" type="text" placeholder="author" onchange="blockOtherInput('a')"/>
+                </p>
+                <p style="display:flex; flex-direction: row;">
+                    <label style="width: 15%">By Creation Date: </label>
+                    <input id="byCreationDate" name="byCreationDate" type="text" placeholder="YYYY-MM-DD, put XX if month/day is not required" onchange="blockOtherInput('cd')"
+                           pattern="[0-9]{4}-(0[1-9]|1[012]|XX)-(?:XX)|(?:(?!XX)(?:0[1-9]|1[0-2])-(?:(0[1-9]|1[0-9]|2[0-9]|3[01]|XX)))"/>
+                </p>
+                <button type="submit" style="width: 50%;">find</button>
+            </form>
+            <script>
+                function blockOtherInput(id) {
+                    var tInput = document.getElementById("byTitle");
+                    var aInput = document.getElementById("byAuthor");
+                    var cdInput = document.getElementById("byCreationDate");
+                    if (id == "t" && tInput.value != "") {
+                        aInput.setAttribute("readonly", true);
+                        cdInput.setAttribute("readonly", true);
+                    } else if (id == "a" && aInput.value != "") {
+                        tInput.setAttribute("readonly", true);
+                        cdInput.setAttribute("readonly", true);
+                    } else if (id == "cd" && cdInput.value != "") {
+                        tInput.setAttribute("readonly", true);
+                        aInput.setAttribute("readonly", true);
+                    } else {
+                        tInput.removeAttribute("readonly");
+                        aInput.removeAttribute("readonly");
+                        cdInput.removeAttribute("readonly");
+                    }
+                }
+            </script>
+        </div>
         <table id="videoTable" class="flat-table">
             <h1>List of videos</h1>
             <thead>
