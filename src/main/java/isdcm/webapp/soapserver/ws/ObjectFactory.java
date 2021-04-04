@@ -8,22 +8,23 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the isdcm.soapserver.ws package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
+ * This object contains factory methods for each
+ * Java content interface and Java element interface
+ * generated in the isdcm.soapserver.ws package.
+ * <p>An ObjectFactory allows you to programatically
+ * construct new instances of the Java representation
+ * for XML content. The Java representation of XML
+ * content can consist of schema derived interfaces
+ * and classes representing the binding of schema
+ * type definitions, element declarations and model
+ * groups.  Factory methods for each of these are
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _FindAllVideoRequest_QNAME = new QName("http://ws.soapserver.isdcm", "findAllVideoRequest");
     private final static QName _FindVideoByTittleRequest_QNAME = new QName("http://ws.soapserver.isdcm", "findVideoByTittleRequest");
     private final static QName _FindVideoByAuthorRequest_QNAME = new QName("http://ws.soapserver.isdcm", "findVideoByAuthorRequest");
     private final static QName _FindVideoByDateRequest_QNAME = new QName("http://ws.soapserver.isdcm", "findVideoByDateRequest");
@@ -31,14 +32,22 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: isdcm.soapserver.ws
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
+     * Create an instance of {@link FindAllVideoRequest }
+     *
+     */
+    public FindAllVideoRequest createFindAllVideoRequest() {
+        return new FindAllVideoRequest();
+    }
+
+    /**
      * Create an instance of {@link FindVideoByTittleRequest }
-     * 
+     *
      */
     public FindVideoByTittleRequest createFindVideoByTittleRequest() {
         return new FindVideoByTittleRequest();
@@ -46,7 +55,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindVideoByAuthorRequest }
-     * 
+     *
      */
     public FindVideoByAuthorRequest createFindVideoByAuthorRequest() {
         return new FindVideoByAuthorRequest();
@@ -54,7 +63,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link FindVideoByDateRequest }
-     * 
+     *
      */
     public FindVideoByDateRequest createFindVideoByDateRequest() {
         return new FindVideoByDateRequest();
@@ -62,7 +71,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link VideoResponse }
-     * 
+     *
      */
     public VideoResponse createVideoResponse() {
         return new VideoResponse();
@@ -70,15 +79,24 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link VideoDTO }
-     * 
+     *
      */
     public VideoDTO createVideoDTO() {
         return new VideoDTO();
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindAllVideoRequest }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://ws.soapserver.isdcm", name = "findAllVideoRequest")
+    public JAXBElement<FindAllVideoRequest> createFindAllVideoRequest(FindAllVideoRequest value) {
+        return new JAXBElement<FindAllVideoRequest>(_FindAllVideoRequest_QNAME, FindAllVideoRequest.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindVideoByTittleRequest }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://ws.soapserver.isdcm", name = "findVideoByTittleRequest")
     public JAXBElement<FindVideoByTittleRequest> createFindVideoByTittleRequest(FindVideoByTittleRequest value) {
@@ -87,7 +105,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindVideoByAuthorRequest }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://ws.soapserver.isdcm", name = "findVideoByAuthorRequest")
     public JAXBElement<FindVideoByAuthorRequest> createFindVideoByAuthorRequest(FindVideoByAuthorRequest value) {
@@ -96,7 +114,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link FindVideoByDateRequest }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://ws.soapserver.isdcm", name = "findVideoByDateRequest")
     public JAXBElement<FindVideoByDateRequest> createFindVideoByDateRequest(FindVideoByDateRequest value) {
@@ -105,7 +123,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link VideoResponse }{@code >}}
-     * 
+     *
      */
     @XmlElementDecl(namespace = "http://ws.soapserver.isdcm", name = "videoResponse")
     public JAXBElement<VideoResponse> createVideoResponse(VideoResponse value) {

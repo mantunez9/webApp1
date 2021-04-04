@@ -2,6 +2,7 @@ package isdcm.webapp.model.dao;
 
 import isdcm.webapp.model.Video;
 import isdcm.webapp.model.vo.ResultActionsCRUD;
+import isdcm.webapp.soapserver.ws.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,8 +41,56 @@ public class VideoDAO {
 
     }
 
-    public List<Video> findAllVideo() {
-        return entityMgr.createQuery("SELECT v FROM Video v", Video.class).getResultList();
+    public List<VideoDTO> findAllVideo() {
+
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        return port.findAllVideo(objectFactory.createFindAllVideoRequest()).getReturn();
+
+    }
+
+    public List<VideoDTO> findByDate(String date) {
+
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByDateRequest request = objectFactory.createFindVideoByDateRequest();
+        String[] splited = date.split("-");
+        request.setYear(splited[0]);
+
+        if (!splited[1].equals("XX")) {
+            request.setMonth(splited[1]);
+        }
+
+        if (!splited[2].equals("XX")) {
+            request.setDay(splited[2]);
+        }
+
+        return port.findVideoByDate(request).getReturn();
+
+    }
+
+    public List<VideoDTO> findByTitle(String title) {
+
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByTittleRequest request = objectFactory.createFindVideoByTittleRequest();
+        request.setTittle(title);
+        return port.findVideoByTittle(request).getReturn();
+
+    }
+
+    public List<VideoDTO> findByAuthor(String author) {
+
+        VideoPortService ss = new VideoPortService();
+        VideoPort port = ss.getVideoPortSoap11();
+        ObjectFactory objectFactory = new ObjectFactory();
+        FindVideoByAuthorRequest request = objectFactory.createFindVideoByAuthorRequest();
+        request.setAuthor(author);
+        return port.findVideoByAuthor(request).getReturn();
+
     }
 
 }
