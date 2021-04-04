@@ -19,6 +19,7 @@ public class VideoServlet extends HttpServlet {
 
     static final DateTimeFormatter format = DateTimeFormatter.ISO_LOCAL_DATE;
     static final DateTimeFormatter hora = DateTimeFormatter.ISO_LOCAL_TIME;
+    public static final String VIDEOS = "videos";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -34,16 +35,16 @@ public class VideoServlet extends HttpServlet {
 
                 if (title != null && !title.equals("")) {
                     VideoResponse videosByTitle = findByTitle(title);
-                    req.setAttribute("videos", videosByTitle);
-                } else if(author != null && !author.equals("")) {
+                    req.setAttribute(VIDEOS, videosByTitle.getReturn());
+                } else if (author != null && !author.equals("")) {
                     VideoResponse videosByAuthor = findByAuthor(author);
-                    req.setAttribute("videos", videosByAuthor);
-                } else if(date != null && !date.equals("")) {
+                    req.setAttribute(VIDEOS, videosByAuthor.getReturn());
+                } else if (date != null && !date.equals("")) {
                     VideoResponse videosByDate = findByDate(date);
-                    req.setAttribute("videos", videosByDate);
+                    req.setAttribute(VIDEOS, videosByDate.getReturn());
                 } else {
                     VideoDAO videoDAO = new VideoDAO();
-                    req.setAttribute("videos", videoDAO.findAllVideo());
+                    req.setAttribute(VIDEOS, videoDAO.findAllVideo());
                 }
                 req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
             }
@@ -68,11 +69,10 @@ public class VideoServlet extends HttpServlet {
         if (!splited[1].equals("XX")) {
             request.setMonth(splited[1]);
         }
-        if(!splited[2].equals("XX")) {
+        if (!splited[2].equals("XX")) {
             request.setDay(splited[2]);
         }
-        VideoResponse videoResponse = port.findVideoByDate(request);
-        return videoResponse;
+        return port.findVideoByDate(request);
     }
 
     private VideoResponse findByTitle(String title) {
@@ -81,8 +81,7 @@ public class VideoServlet extends HttpServlet {
         ObjectFactory objectFactory = new ObjectFactory();
         FindVideoByTittleRequest request = objectFactory.createFindVideoByTittleRequest();
         request.setTittle(title);
-        VideoResponse videoResponse = port.findVideoByTittle(request);
-        return videoResponse;
+        return port.findVideoByTittle(request);
     }
 
     private VideoResponse findByAuthor(String author) {
@@ -91,8 +90,7 @@ public class VideoServlet extends HttpServlet {
         ObjectFactory objectFactory = new ObjectFactory();
         FindVideoByAuthorRequest request = objectFactory.createFindVideoByAuthorRequest();
         request.setAuthor(author);
-        VideoResponse videoResponse =port.findVideoByAuthor(request);
-        return videoResponse;
+        return port.findVideoByAuthor(request);
     }
 
     @Override
@@ -125,7 +123,7 @@ public class VideoServlet extends HttpServlet {
 
             if (resultActionsCRUD.isOk()) {
 
-                req.setAttribute("videos", videoDAO.findAllVideo());
+                req.setAttribute(VIDEOS, videoDAO.findAllVideo());
                 req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
 
             } else {

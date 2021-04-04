@@ -15,7 +15,7 @@ import javax.xml.ws.Service;
  *
  */
 @WebServiceClient(name = "VideoPortService",
-                  wsdlLocation = "file:/C:/Users/gessi/IdeaProjects/webApp1/src/main/resources/wsdl/Video.wsdl",
+                  wsdlLocation = "file:/C:/Users/mantu/IdeaProjects/webApp1/src/main/resources/wsdl/Video.wsdl",
                   targetNamespace = "http://ws.soapserver.isdcm")
 public class VideoPortService extends Service {
 
@@ -26,11 +26,11 @@ public class VideoPortService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("file:/C:/Users/gessi/IdeaProjects/webApp1/src/main/resources/wsdl/Video.wsdl");
+            url = new URL("src/main/resources/wsdl/Video.wsdl");
         } catch (MalformedURLException e) {
             java.util.logging.Logger.getLogger(VideoPortService.class.getName())
                 .log(java.util.logging.Level.INFO,
-                     "Can not initialize the default wsdl from {0}", "file:/C:/Users/gessi/IdeaProjects/webApp1/src/main/resources/wsdl/Video.wsdl");
+                     "Can not initialize the default wsdl from {0}", "src/main/resources/wsdl/Video.wsdl");
         }
         WSDL_LOCATION = url;
     }
