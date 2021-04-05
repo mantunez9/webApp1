@@ -56,6 +56,7 @@ public class VideoDAO {
         VideoPort port = ss.getVideoPortSoap11();
         ObjectFactory objectFactory = new ObjectFactory();
         FindVideoByDateRequest request = objectFactory.createFindVideoByDateRequest();
+
         String[] splited = date.split("-");
         request.setYear(splited[0]);
 

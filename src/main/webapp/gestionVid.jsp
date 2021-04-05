@@ -85,7 +85,7 @@
                 <p style="display:flex; flex-direction: row;">
                     <label style="width: 15%">By Creation Date: </label>
                     <input id="byCreationDate" name="byCreationDate" type="text" placeholder="YYYY-MM-DD, put XX if month/day is not required" onchange="blockOtherInput('cd')"
-                           pattern="[0-9]{4}-(0[1-9]|1[012]|XX)-(?:XX)|(?:(?!XX)(?:0[1-9]|1[0-2])-(?:(0[1-9]|1[0-9]|2[0-9]|3[01]|XX)))"/>
+                           pattern="(?:(?:([0-9]{4})-)(0[1-9]|1[012]|XX)-)(?:XX)|(?:(?!XX)(?:([0-9]{4})-)(?:0[1-9]|1[0-2])-(?:(0[1-9]|1[0-9]|2[0-9]|3[01]|XX)))"/>
                 </p>
                 <button type="submit" style="width: 50%;">find</button>
             </form>
