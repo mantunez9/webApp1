@@ -56,7 +56,7 @@ public class UserLoginServlet extends HttpServlet {
 
                 String message = "Incorrect username or password";
                 req.setAttribute("message", message);
-                web = "/login";
+                web = "/login.jsp";
                 req.getRequestDispatcher(web).forward(req, resp);
 
             }
