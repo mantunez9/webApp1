@@ -44,9 +44,9 @@ public class VideoServlet extends HttpServlet {
                     req.setAttribute(VIDEOS, videoDAO.findAllVideo());
                 }
                 req.getRequestDispatcher("/gestionVid.jsp").forward(req, resp);
+            } else {
+                resp.sendRedirect("/login.jsp");
             }
-
-            resp.sendRedirect("/login");
 
         } catch (Exception e) {
 

@@ -17,6 +17,11 @@
           content="text/html; charset=windows-1256">
     <title>Video</title>
     <link rel="stylesheet" type="text/css" href="css/dropdown.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../node_modules/video.js/dist/video-js.min.css"/>
+    <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
 </head>
 <body>
 <div class="dropdown">
@@ -63,7 +68,7 @@
             </p>
             <p>
                 <label for="url">URL: </label>
-                <input id="url" name="url" type="url" placeholder="www.youtube.com/example"/>
+                <input id="url" name="url" type="text" placeholder="www.youtube.com/example"/>
             </p>
             <button type="submit">create</button>
         </form>
@@ -127,7 +132,7 @@
             </thead>
             <tbody>
             <c:forEach items="${videos}" var="video">
-                <tr>
+                <tr onclick="streamVideo(this)">
                     <td>${video.tittle}</td>
                     <td>${video.author}</td>
                     <td>${video.creationDate}</td>
@@ -177,6 +182,90 @@
                     }
                 }
             }
+        </script>
+        <br/>
+        <div id="play_video"></div>
+        <script>
+            function streamVideo(x) {
+                var div = document.getElementById("play_video");
+                div.innerText = "";
+                var table = document.getElementById("videoTable");
+                var rows = table.rows;
+                var url = rows[x.rowIndex].cells[7].innerHTML;
+                if (url) {
+                    var video = document.createElement('video');
+                    video.setAttribute('id', 'my-player1');
+                    video.setAttribute('class', 'video-js vjs-default-skin');
+                    video.controls = true;
+                    video.setAttribute('preload','auto');
+                    video.setAttribute('data-setup', '{"techOrder": ["youtube"]}');
+
+                    var p = document.createElement('p');
+                    p.setAttribute('class', 'vjs-no-js');
+                    p.innerText = "To view this video please enable JavaScript, and consider upgrading to a web browser that <a href='https://videojs.com/html5-video-support/' target='_blank'> supports HTML5 video</a>"
+
+                    var source = document.createElement('source');
+                    source.setAttribute("id", "source")
+                    source.setAttribute("src", url);
+                    source.setAttribute("type", "video/" + rows[x.rowIndex].cells[6].innerHTML);
+
+                    video.appendChild(source);
+                    video.appendChild(p);
+                    div.appendChild(video);
+                }
+            }
+        </script>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-xl">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Video Playback</h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div id="videoDiv"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="../node_modules/video.js/dist/video.min.js"></script>
+        <script src="../dist/Youtube.min.js"></script>
+        <script>
+            jQuery(document).ready(function($) {
+                $('#videoTable').DataTable({
+                    searching: false,
+                    responsive: true,
+                    "autoWidth": false,
+                });
+                var table = $('#videoTable').DataTable();
+                $('#videoTable tbody').on('click', 'tr', function () {
+                    $(".modal-body div span").text("");
+                    $('#videoDiv').text("");
+                    var url = table.row(this).data()[7];
+                    console.log(url);
+                    console.log(table.row(this).data()[6]);
+                    if (url) {
+                        var video = $('<video />', {
+                            id: 'myVideo',
+                            src: url,
+                            type: 'video/'+ table.row(this).data()[6],
+                            controls: true
+                        });
+                        video.appendTo($('#videoDiv'));
+                        $("#myModal").modal("show");
+                    }
+                });
+            } );
         </script>
     </div>
 </div>
