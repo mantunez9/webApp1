@@ -19,9 +19,9 @@
     <link rel="stylesheet" type="text/css" href="css/dropdown.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="../node_modules/video.js/dist/video-js.min.css"/>
-    <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js/dist/video.min.js"></script>
+    <script src="video/Youtube.min.js"></script>
 </head>
 <body>
 <div class="dropdown">
@@ -225,7 +225,14 @@
                         <h4 class="modal-title">Video Playback</h4>
                     </div>
                     <div class="modal-body" >
-                        <div id="videoDiv"></div>
+                            <video id="vid1"
+                                    class="video-js vjs-default-skin"
+                                    controls
+                                    autoplay
+                                    width="640" height="264"
+                                    data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=1KaCVJip7Zw"}], "youtube": { "iv_load_policy": 1 } }'
+                            >
+                            </video>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
@@ -238,8 +245,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script src="../node_modules/video.js/dist/video.min.js"></script>
-        <script src="../dist/Youtube.min.js"></script>
         <script>
             jQuery(document).ready(function($) {
                 $('#videoTable').DataTable({
@@ -255,13 +260,13 @@
                     console.log(url);
                     console.log(table.row(this).data()[6]);
                     if (url) {
-                        var video = $('<video />', {
-                            id: 'myVideo',
-                            src: url,
-                            type: 'video/'+ table.row(this).data()[6],
-                            controls: true
-                        });
-                        video.appendTo($('#videoDiv'));
+                        // var video = $('<video />', {
+                        //     id: 'myVideo',
+                        //     src: url,
+                        //     type: 'video/youtube',
+                        //     controls: true
+                        // });
+                        // video.appendTo($('#videoDiv'));
                         $("#myModal").modal("show");
                     }
                 });
