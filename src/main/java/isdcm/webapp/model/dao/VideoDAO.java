@@ -1,19 +1,26 @@
 package isdcm.webapp.model.dao;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import isdcm.webapp.model.Video;
+import isdcm.webapp.model.VideoRestResponse;
 import isdcm.webapp.model.vo.ResultActionsCRUD;
 import isdcm.webapp.soapserver.ws.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 public class VideoDAO {
 
     private static final String PERSISTENCE_UNIT_NAME = "webApp1";
+
     EntityManagerFactory emFactoryObj = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager entityMgr = emFactoryObj.createEntityManager();
+    ObjectMapper objectMapper = new ObjectMapper();
 
     public ResultActionsCRUD createVideo(Video video) {
 
@@ -38,6 +45,26 @@ public class VideoDAO {
                     .build();
 
         }
+
+    }
+
+    public VideoRestResponse updateReproductions(Integer id) throws IOException {
+
+        URL url = new URL("http://localhost:9000/video/" + id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Content-Type", "application/xml");
+
+        if (connection.getResponseCode() != 200) {
+            throw new RuntimeException("Failed : HTTP Error code : "
+                    + connection.getResponseCode());
+        }
+
+        VideoRestResponse restResponse = objectMapper.readValue(connection.getInputStream(), VideoRestResponse.class);
+        connection.disconnect();
+        return restResponse;
 
     }
 
