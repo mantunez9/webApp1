@@ -120,19 +120,21 @@
             <h1>List of videos</h1>
             <thead>
             <tr>
-                <th onclick="sortTable(0)">Title</th>
-                <th onclick="sortTable(1)">Author</th>
-                <th onclick="sortTable(2)">Creation date</th>
-                <th onclick="sortTable(3)">Time</th>
-                <th onclick="sortTable(4)">Number of reproductions</th>
-                <th onclick="sortTable(5)">Description</th>
-                <th onclick="sortTable(6)">Format</th>
-                <th onclick="sortTable(7)">Url</th>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Title</th>
+                <th onclick="sortTable(2)">Author</th>
+                <th onclick="sortTable(3)">Creation date</th>
+                <th onclick="sortTable(4)">Time</th>
+                <th onclick="sortTable(5)">Number of reproductions</th>
+                <th onclick="sortTable(6)">Description</th>
+                <th onclick="sortTable(7)">Format</th>
+                <th onclick="sortTable(8)">Url</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${videos}" var="video">
-                <tr onclick="streamVideo(this)">
+                <tr>
+                    <td>${video.videoId}</td>
                     <td>${video.tittle}</td>
                     <td>${video.author}</td>
                     <td>${video.creationDate}</td>
@@ -184,38 +186,6 @@
             }
         </script>
         <br/>
-        <div id="play_video"></div>
-        <script>
-            function streamVideo(x) {
-                var div = document.getElementById("play_video");
-                div.innerText = "";
-                var table = document.getElementById("videoTable");
-                var rows = table.rows;
-                var url = rows[x.rowIndex].cells[7].innerHTML;
-                if (url) {
-                    var video = document.createElement('video');
-                    video.setAttribute('id', 'my-player1');
-                    video.setAttribute('class', 'video-js vjs-default-skin');
-                    video.controls = true;
-                    video.setAttribute('preload','auto');
-                    video.setAttribute('data-setup', '{"techOrder": ["youtube"]}');
-
-                    var p = document.createElement('p');
-                    p.setAttribute('class', 'vjs-no-js');
-                    p.innerText = "To view this video please enable JavaScript, and consider upgrading to a web browser that <a href='https://videojs.com/html5-video-support/' target='_blank'> supports HTML5 video</a>"
-
-                    var source = document.createElement('source');
-                    source.setAttribute("id", "source")
-                    source.setAttribute("src", url);
-                    source.setAttribute("type", "video/" + rows[x.rowIndex].cells[6].innerHTML);
-
-                    video.appendChild(source);
-                    video.appendChild(p);
-                    div.appendChild(video);
-                }
-            }
-        </script>
-
         <!-- Modal -->
         <div class="modal fade" id="myModal" role="dialog">
             <div class="modal-dialog modal-xl">
@@ -225,14 +195,16 @@
                         <h4 class="modal-title">Video Playback</h4>
                     </div>
                     <div class="modal-body" >
-                            <video id="vid1"
-                                    class="video-js vjs-default-skin"
-                                    controls
-                                    autoplay
-                                    width="640" height="264"
-                                    data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=1KaCVJip7Zw"}], "youtube": { "iv_load_policy": 1 } }'
-                            >
-                            </video>
+                        <div id="videoDiv"></div>
+                        <video id="vid1"
+                                hidden
+                                class="video-js vjs-default-skin"
+                                controls
+                                poster="https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
+                                width="640" height="264"
+                                data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=ientnbMoFkw"}], "youtube": { "iv_load_policy": 1 } }'
+                        >
+                        </video>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
@@ -256,17 +228,29 @@
                 $('#videoTable tbody').on('click', 'tr', function () {
                     $(".modal-body div span").text("");
                     $('#videoDiv').text("");
-                    var url = table.row(this).data()[7];
+                    var url = table.row(this).data()[8];
+                    var type = table.row(this).data()[7];
                     console.log(url);
-                    console.log(table.row(this).data()[6]);
+                    console.log(type);
                     if (url) {
-                        // var video = $('<video />', {
-                        //     id: 'myVideo',
-                        //     src: url,
-                        //     type: 'video/youtube',
-                        //     controls: true
-                        // });
-                        // video.appendTo($('#videoDiv'));
+                        if (type == "youtube") {
+                            var myVideo = videojs('vid1');
+                            console.log(myVideo);
+                            videojs("vid1").src({ type: "video/youtube", src: url });
+                            $("#vid1").removeAttr('hidden');
+                        } else {
+                            $("#vid1").attr('hidden', true);
+                            var video = $('<video />', {
+                                     id: 'myVideo',
+                                     src: url,
+                                     type: 'video/' + type,
+                                     controls: true,
+                                     width:"640",
+                                     height:"264",
+                                     poster: "https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
+                                 });
+                            video.appendTo($('#videoDiv'));
+                        }
                         $("#myModal").modal("show");
                     }
                 });

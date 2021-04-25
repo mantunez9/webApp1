@@ -50,6 +50,9 @@
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-ws-addr:3.2.7" />
           <element id="library" level="project" name="Maven: org.apache.cxf:cxf-rt-ws-policy:3.2.7" />
           <element id="library" level="project" name="Maven: org.apache.neethi:neethi:3.1.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.4.4" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.4.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.4.4" />
         </element>
       </element>
       <element id="directory" name="META-INF">
