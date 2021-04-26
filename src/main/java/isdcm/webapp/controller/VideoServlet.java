@@ -1,6 +1,8 @@
 package isdcm.webapp.controller;
 
+import com.google.gson.Gson;
 import isdcm.webapp.model.Video;
+import isdcm.webapp.model.VideoRestResponse;
 import isdcm.webapp.model.dao.VideoDAO;
 import isdcm.webapp.model.vo.ResultActionsCRUD;
 
@@ -100,5 +102,25 @@ public class VideoServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) {
+
+        try {
+
+            VideoDAO videoDAO = new VideoDAO();
+            VideoRestResponse response = videoDAO.updateReproductions(Integer.valueOf(req.getParameter("id")));
+            req.setAttribute(VIDEOS, videoDAO.findAllVideo());
+
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(new Gson().toJson(response));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

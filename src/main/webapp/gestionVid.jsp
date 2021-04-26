@@ -85,11 +85,14 @@
                 </p>
                 <p style="display:flex; flex-direction: row;">
                     <label style="width: 15%">By Author: </label>
-                    <input id="byAuthor" name="byAuthor" type="text" placeholder="author" onchange="blockOtherInput('a')"/>
+                    <input id="byAuthor" name="byAuthor" type="text" placeholder="author"
+                           onchange="blockOtherInput('a')"/>
                 </p>
                 <p style="display:flex; flex-direction: row;">
                     <label style="width: 15%">By Creation Date: </label>
-                    <input id="byCreationDate" name="byCreationDate" type="text" placeholder="YYYY-MM-DD, put XX if month/day is not required" onchange="blockOtherInput('cd')"
+                    <input id="byCreationDate" name="byCreationDate" type="text"
+                           placeholder="YYYY-MM-DD, put XX if month/day is not required"
+                           onchange="blockOtherInput('cd')"
                            pattern="(?:(?:([0-9]{4})-)(0[1-9]|1[012]|XX)-)(?:XX)|(?:(?!XX)(?:([0-9]{4})-)(?:0[1-9]|1[0-2])-(?:(0[1-9]|1[0-9]|2[0-9]|3[01]|XX)))"/>
                 </p>
                 <button type="submit" style="width: 50%;">find</button>
@@ -194,15 +197,15 @@
                     <div class="modal-header">
                         <h4 class="modal-title">Video Playback</h4>
                     </div>
-                    <div class="modal-body" >
+                    <div class="modal-body">
                         <div id="videoDiv"></div>
                         <video id="vid1"
-                                hidden
-                                class="video-js vjs-default-skin"
-                                controls
-                                poster="https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
-                                width="640" height="264"
-                                data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=ientnbMoFkw"}], "youtube": { "iv_load_policy": 1 } }'
+                               hidden
+                               class="video-js vjs-default-skin"
+                               controls
+                               poster="https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
+                               width="640" height="264"
+                               data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=ientnbMoFkw"}], "youtube": { "iv_load_policy": 1 } }'
                         >
                         </video>
                     </div>
@@ -213,12 +216,16 @@
 
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
         <script>
-            jQuery(document).ready(function($) {
+            jQuery(document).ready(function ($) {
+
+                var id = 0;
+                var row = 0;
+
                 $('#videoTable').DataTable({
                     searching: false,
                     responsive: true,
@@ -230,31 +237,49 @@
                     $('#videoDiv').text("");
                     var url = table.row(this).data()[8];
                     var type = table.row(this).data()[7];
-                    console.log(url);
-                    console.log(type);
+                    id = table.row(this).data()[0];
+                    row = table.row(this);
                     if (url) {
                         if (type == "youtube") {
                             var myVideo = videojs('vid1');
                             console.log(myVideo);
-                            videojs("vid1").src({ type: "video/youtube", src: url });
+                            videojs("vid1").src({type: "video/youtube", src: url});
                             $("#vid1").removeAttr('hidden');
                         } else {
                             $("#vid1").attr('hidden', true);
                             var video = $('<video />', {
-                                     id: 'myVideo',
-                                     src: url,
-                                     type: 'video/' + type,
-                                     controls: true,
-                                     width:"640",
-                                     height:"264",
-                                     poster: "https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
-                                 });
+                                id: 'myVideo',
+                                src: url,
+                                type: 'video/' + type,
+                                controls: true,
+                                width: "640",
+                                height: "264",
+                                poster: "https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
+                            });
                             video.appendTo($('#videoDiv'));
                         }
                         $("#myModal").modal("show");
                     }
                 });
-            } );
+
+                $('.vjs-big-play-button').on("click", function () {
+
+                    var url = "http://localhost:8080/video";
+
+                    $.ajax({
+                        url: url + "?id=" + id,
+                        cache: false,
+                        type: 'PUT',
+                        success: function (data) {
+                            var reproductionTemp = row.data();
+                            reproductionTemp[5] = data.reproductions;
+                            row.data(reproductionTemp).invalidate();
+                        }
+                    });
+
+                });
+
+            });
         </script>
     </div>
 </div>
