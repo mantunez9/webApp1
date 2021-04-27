@@ -198,8 +198,26 @@
                         <h4 class="modal-title">Video Playback</h4>
                     </div>
                     <div class="modal-body">
-                        <div id="videoDiv"></div>
-                        <video id="vid1"
+                        <div id="videoDiv" hidden>
+                            <video
+                                    id="vid-local"
+                                    class="video-js vjs-default-skin"
+                                    controls
+                                    preload="auto"
+                                    poster="https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
+                                    width="640" height="264"
+                                    data-setup='{}'>
+                                <source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
+                                <p class="vjs-no-js">
+                                    To view this video please enable JavaScript, and consider upgrading to a
+                                    web browser that
+                                    <a href="https://videojs.com/html5-video-support/" target="_blank">
+                                        supports HTML5 video
+                                    </a>
+                                </p>
+                            </video>
+                        </div>
+                        <video id="vid-yt"
                                hidden
                                class="video-js vjs-default-skin"
                                controls
@@ -234,29 +252,23 @@
                 var table = $('#videoTable').DataTable();
                 $('#videoTable tbody').on('click', 'tr', function () {
                     $(".modal-body div span").text("");
-                    $('#videoDiv').text("");
                     var url = table.row(this).data()[8];
                     var type = table.row(this).data()[7];
                     id = table.row(this).data()[0];
                     row = table.row(this);
                     if (url) {
                         if (type == "youtube") {
-                            var myVideo = videojs('vid1');
-                            console.log(myVideo);
-                            videojs("vid1").src({type: "video/youtube", src: url});
-                            $("#vid1").removeAttr('hidden');
+                            // hide local video player
+                            $('#videoDiv').attr('hidden', true);
+                            // change youtube video player source and show it
+                            videojs("vid-yt").src({type: "video/youtube", src: url});
+                            $("#vid-yt").removeAttr('hidden');
                         } else {
-                            $("#vid1").attr('hidden', true);
-                            var video = $('<video />', {
-                                id: 'myVideo',
-                                src: url,
-                                type: 'video/' + type,
-                                controls: true,
-                                width: "640",
-                                height: "264",
-                                poster: "https://www.tshiamisotrust.com/wp-content/uploads/2020/11/videos.png"
-                            });
-                            video.appendTo($('#videoDiv'));
+                            // hide youtube video player
+                            $("#vid-yt").attr('hidden', true);
+                            // change local video player source and show it
+                            videojs("vid-local").src({type: "video/"+type, src: url});
+                            $('#videoDiv').removeAttr('hidden');
                         }
                         $("#myModal").modal("show");
                     }
